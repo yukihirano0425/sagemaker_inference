@@ -1,3 +1,10 @@
+
+# Dockerfileで実行すること
+# 1. ベースイメージの指定
+# 2. aptパッケージのインストール
+# 3. pipパッケージのインストール
+# 4. ファイルのコピー、実行権限の付与
+
 FROM python:3.9-slim
 
 ENV PROGRAM_DIR=/opt/program
