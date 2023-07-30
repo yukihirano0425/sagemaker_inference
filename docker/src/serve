@@ -1,0 +1,16 @@
+import flask
+from service.convert import concat_text
+
+app = flask.Flask(__name__)
+app.config["JSON_AS_ASCII"] = False
+
+
+@app.route("/ping", methods=["GET"])
+def ping():
+    return {"status": 200}
+
+
+@app.route("/invocations", methods=["POST"])
+def convert() -> flask.Response:
+    text = concat_text(flask.request.json["title"], flask.request.json["summary"])
+    return flask.jsonify({"text": text})
