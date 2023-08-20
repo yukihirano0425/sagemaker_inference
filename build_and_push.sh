@@ -1,13 +1,6 @@
 #!/bin/zsh
 
-# イメージ名指定
-# シェルの第一引数をイメージ名として扱う
-ENV=$1
-
-PREFIX=""
-if [ "$ENV" != "" ]; then
-    PREFIX="${ENV}-"
-fi
+REPOSITORY_NAME="sagemaker-sample-endpoint"
 
 # IAM認証情報に紐付くアカウント番号を取得
 echo Get the account number associated with the current IAM credentials
@@ -20,7 +13,7 @@ fi
 REGION=$(aws configure get region)
 
 # ECRへプッシュする名称を生成
-TAG="${ACCOUNT}.dkr.ecr.${REGION}.amazonaws.com/${PREFIX}sagemaker-sample-endpoint:latest"
+TAG="${ACCOUNT}.dkr.ecr.${REGION}.amazonaws.com/sagemaker-sample-endpoint:latest"
 
 # リポジトリがECRに存在しない場合、新規作成
 echo If the repository doesnt exist in ECR, create it
@@ -34,9 +27,9 @@ echo login
 aws ecr get-login-password --region ${REGION} | docker login --username AWS --password-stdin ${ACCOUNT}.dkr.ecr.${REGION}.amazonaws.com
 
 echo docker build
-docker buildx build --platform=linux/amd64 -t sagemaker-sample-endpoint -f docker/Dockerfile .
+docker buildx build --platform=linux/amd64 -t sagemaker-sample-endpoint -f Dockerfile .
 
-echo docker tag sagemaker-sample-endpoint ${TAG}
-docker tag sagemaker-sample-endpoint ${TAG}
+echo docker tag ${REPOSITORY_NAME} ${TAG}
+docker tag ${REPOSITORY_NAME} ${TAG}
 
 docker push ${TAG}
