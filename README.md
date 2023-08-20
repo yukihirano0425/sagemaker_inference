@@ -10,3 +10,6 @@ pip install -r path/to/requirements.txt
 
 # DockerイメージをECRにプッシュする
 AWS_PROFILE=yukihirano0425 ./build_and_push.sh
+
+# 訓練モデルを実行する
+python3 path/to/create_training_job.py
